@@ -7,7 +7,14 @@ export default function SubscribeNewsletter() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!e.target.checkValidity()) {
+    const trimmedEmail = email.trim();
+
+    const isValid =
+      e.target.checkValidity() &&
+      trimmedEmail.includes("@") &&
+      trimmedEmail.split("@")[1]?.includes(".");
+
+    if (!isValid) {
       setError("Please enter a valid email address.");
       return;
     }
