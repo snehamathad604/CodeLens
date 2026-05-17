@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import Loader from "../components/shared/Loader";
 import { useCodeforces } from "../hooks/useCodeforces";
 import ConnectBanner from "../components/codeforces/ConnectBanner";
 import VerifyModal from "../components/codeforces/VerifyModal";
 import AIInsightPanel from "../components/ai/AIInsightPanel";
+import LoaderSwitcher from "../components/shared/loaders/LoaderSwitcher";
 
 export default function DashboardPage() {
   const { user, loading, logout } = useAuth();
@@ -29,7 +29,7 @@ export default function DashboardPage() {
   };
 
   if (loading) {
-    return <Loader />;
+    return <LoaderSwitcher />;
   }
 
   return (
