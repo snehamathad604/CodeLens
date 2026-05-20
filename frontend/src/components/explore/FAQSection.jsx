@@ -17,6 +17,8 @@ export default function FAQSection() {
         <div className="space-y-6 sm:space-y-8 w-full">
           {faqs.map((item, index) => {
             const isOpen = openIdx === index;
+            const buttonId = `landing-faq-button-${item.id}`;
+            const panelId = `landing-faq-panel-${item.id}`;
 
             return (
               <div
@@ -28,7 +30,8 @@ export default function FAQSection() {
                   onClick={() => toggle(index)}
                   className="w-full flex items-center justify-between gap-4 p-6 sm:p-8 text-left"
                   aria-expanded={isOpen}
-                  aria-controls={`landing-faq-panel-${item.id}`}
+                  aria-controls={panelId}
+                  id={buttonId}
                 >
                   <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-black leading-tight">
                     Q: {item.q}
@@ -46,7 +49,10 @@ export default function FAQSection() {
                 </button>
 
                 <div
-                  id={`landing-faq-panel-${item.id}`}
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  aria-hidden={!isOpen}
                   className={`grid transition-all duration-300 ease-in-out ${
                     isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                   }`}
