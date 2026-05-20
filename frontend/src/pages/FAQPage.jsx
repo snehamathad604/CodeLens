@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { faqs } from "../data/faqs";
 
 const supportTopics = [...new Set(faqs.map((item) => item.category))];
@@ -7,6 +7,7 @@ const supportTopics = [...new Set(faqs.map((item) => item.category))];
 export default function FAQPage() {
   const [openIdx, setOpenIdx] = useState(null);
   const itemRefs = useRef([]);
+  const navigate = useNavigate();
 
   const toggleFaq = (index, shouldScroll = false) => {
     setOpenIdx((currentIndex) => (currentIndex === index ? null : index));
@@ -81,6 +82,8 @@ export default function FAQPage() {
           <div className="flex flex-col gap-6">
             {faqs.map((item, index) => {
               const isOpen = openIdx === index;
+              const buttonId = `faq-button-${item.id}`;
+              const panelId = `faq-panel-${item.id}`;
 
               return (
                 <article
@@ -95,7 +98,8 @@ export default function FAQPage() {
                     onClick={() => toggleFaq(index)}
                     className="flex w-full items-center justify-between gap-6 p-6 text-left sm:p-8"
                     aria-expanded={isOpen}
-                    aria-controls={`faq-panel-${item.id}`}
+                    aria-controls={panelId}
+                    id={buttonId}
                   >
                     <span className="text-2xl font-black uppercase leading-tight tracking-tight sm:text-4xl">
                       {item.q}
@@ -105,16 +109,21 @@ export default function FAQPage() {
                     </span>
                   </button>
 
-                  {isOpen && (
-                    <div
-                      id={`faq-panel-${item.id}`}
-                      className="border-t-4 border-black px-6 py-6 sm:px-8"
-                    >
+                  <div
+                    id={panelId}
+                    role="region"
+                    aria-labelledby={buttonId}
+                    aria-hidden={!isOpen}
+                    className={`grid border-t-4 border-black transition-all duration-300 ease-in-out ${
+                      isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
                       <p className="max-w-3xl text-base font-bold leading-relaxed text-black sm:text-lg">
-                        {item.a}
+                        <span className="block px-6 py-6 sm:px-8">{item.a}</span>
                       </p>
                     </div>
-                  )}
+                  </div>
                 </article>
               );
             })}
@@ -132,12 +141,13 @@ export default function FAQPage() {
               Explore The Platform.
             </h2>
           </div>
-          <Link
-            to="/explore"
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
             className="inline-flex border-4 border-white px-8 py-5 text-sm font-black uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-black"
           >
-            Back To Explore
-          </Link>
+            Go Back
+          </button>
         </div>
       </section>
     </main>
