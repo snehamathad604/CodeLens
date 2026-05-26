@@ -125,13 +125,13 @@ export default function FAQPage() {
                     role="region"
                     aria-labelledby={buttonId}
                     aria-hidden={!isOpen}
-                    className={`grid border-t-4 border-black transition-all duration-300 ease-in-out ${
-                      isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      isOpen ? "grid-rows-[1fr] border-t-4 border-black" : "grid-rows-[0fr]"
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <p className="max-w-3xl text-base font-bold leading-relaxed text-black sm:text-lg">
-                        <span className="block px-6 py-6 sm:px-8">{item.a}</span>
+                      <p className="max-w-3xl px-6 py-6 text-base font-bold leading-relaxed text-black sm:px-8 sm:text-lg">
+                        {item.a}
                       </p>
                     </div>
                   </div>
