@@ -17,6 +17,7 @@ import ContestLeetCodePage from "./pages/ContestLeetCodePage";
 import ContestAtCoderPage from "./pages/ContestAtCoderPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
+import FAQPage from "./pages/FAQPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import AccountCenterPage from "./pages/AccountCenterPage";
@@ -24,7 +25,7 @@ import GitHubIntelligencePage from "./pages/GitHubIntelligencePage";
 import GitHubCallbackPage from "./pages/GitHubCallbackPage";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import PublicRoute from "./components/shared/PublicRoute";
-import FAQSection from "./components/explore/FAQSection";
+
 export default function App() {
   return (
     <AuthProvider>
@@ -101,6 +102,7 @@ export default function App() {
             />
             <Route path="/terms" element={<TermsPage/>} />
             <Route path="/privacy" element={<PrivacyPage/>} />
+            <Route path="/faq" element={<FAQPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </MainLayout>
