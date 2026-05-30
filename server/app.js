@@ -7,6 +7,7 @@ import userRoutes from "./modules/user/routes.js";
 import codeforcesRoutes from "./modules/codeforces/routes.js";
 import aiRoutes from "./modules/ai/routes.js";
 import githubRoutes from "./modules/github/routes.js";
+import { globalLimiter, apiLimiter } from "./middlewares/rateLimiter.js";
 
 const app = express();
 
@@ -32,6 +33,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Apply global rate limiter to all requests
+app.use(globalLimiter);
+
 // ── Cookie Parser ─────────────────────────────────────────────────────────────
 // Must come BEFORE routes so req.cookies is populated
 app.use(cookieParser());
@@ -41,6 +45,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // ── Routes ────────────────────────────────────────────────────────────────────
+app.use("/api", apiLimiter); // Apply API limiter to all /api routes
 app.use("/api/auth",       authRoutes);
 app.use("/api/user",       userRoutes);
 app.use("/api/codeforces", codeforcesRoutes);
