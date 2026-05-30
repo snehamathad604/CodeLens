@@ -1,7 +1,7 @@
 name: Documentation Improvement
 description: Suggest a clarification, correction, or enhancement to the project documentation.
 title: "[Docs]: "
-labels: ["type:documentation"]
+labels: ["type:docs"]
 body:
   - type: markdown
     attributes:

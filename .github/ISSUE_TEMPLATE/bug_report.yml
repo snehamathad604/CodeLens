@@ -66,8 +66,6 @@ body:
       label: Screenshots or recordings
       description: Drag and drop screenshots, recordings, or paste image/video links if available.
       placeholder: Attach screenshots or links here
-    validations:
-      required: false
 
   - type: textarea
     id: browser-device-info
@@ -89,5 +87,3 @@ body:
       label: Additional context
       description: Include logs, edge cases, related issues, or anything else that may help.
       placeholder: Add any extra context here
-    validations:
-      required: false

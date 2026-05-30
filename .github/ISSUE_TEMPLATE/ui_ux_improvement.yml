@@ -1,7 +1,7 @@
 name: UI/UX Improvement
 description: Propose an interface or usability enhancement with visual, responsive, and accessibility context.
 title: "[UI/UX]: "
-labels: ["type:ui/ux"]
+labels: ["UI/UX"]
 body:
   - type: markdown
     attributes:
