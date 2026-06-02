@@ -580,6 +580,9 @@ export default function Navbar() {
             <Link to="/explore" onClick={closeMenu} className={mobileLinkCls}>
               Explore <span className="text-zinc-300 text-sm">→</span>
             </Link>
+            <Link to="/faq" onClick={closeMenu} className={mobileLinkCls}>
+              FAQ <span className="text-zinc-300 text-sm">→</span>
+            </Link>
 
             {isAuthenticated && (
               <Link to="/codeforces" onClick={closeMenu} className={mobileLinkCls}>
