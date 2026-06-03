@@ -1,22 +1,9 @@
-import { useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 const Contact = () => {
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
-
-        const formData = new formData(e.target)
-        const data = {
-            firstName: formData.get("firstName"),
-            lastName: formData.get("lastName"),
-            email: formData.get("email"),
-            subject: formData.get("subject"),
-            message: formData.get("message"),
-        };
-        console.log(data)
-        alert("Message sent successfully!");
+        alert("Message sent!");
         e.target.reset();
-    }
+    };
 
     return (
         <main>
