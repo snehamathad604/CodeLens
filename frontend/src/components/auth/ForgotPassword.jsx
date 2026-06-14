@@ -153,6 +153,7 @@ export default function ForgotPassword() {
               <input
                 type="email"
                 id="email"
+                name="email"
                 value={email}
                 autoComplete="email"
                 aria-describedby={
@@ -212,13 +213,16 @@ export default function ForgotPassword() {
             </p>
 
             <div className="flex flex-col space-y-3">
-              <label className="text-sm font-black uppercase tracking-widest text-black">
+              <label 
+                htmlFor="otp"
+                className="text-sm font-black uppercase tracking-widest text-black">
                 Verification Code
               </label>
               <input
                 type="text"
                 value={otp}
                 id="otp"
+                name="otp"
                 inputMode="text"
                 aria-invalid={otp.length > 0 && !isOtpValid}
                 onChange={(e) =>
@@ -257,6 +261,7 @@ export default function ForgotPassword() {
                 aria-invalid={newPassword.length > 0 && !isPasswordValid}
                 value={newPassword}
                 id="new-password"
+                name="newPassword"
                 onChange={(e) => setNewPassword(e.target.value)}
                 className="w-full p-5 border-4 border-black rounded-none text-black font-bold focus:outline-none focus:ring-0 focus:border-gray-500"
                 placeholder="••••••••"
@@ -285,6 +290,7 @@ export default function ForgotPassword() {
                 aria-invalid={confirmPassword.length > 0 && !doPasswordsMatch}
                 value={confirmPassword}
                 id="confirm-password"
+                name="confirmPassword"
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full p-5 border-4 border-black rounded-none text-black font-bold focus:outline-none focus:ring-0 focus:border-gray-500"
                 placeholder="••••••••"
