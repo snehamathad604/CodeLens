@@ -1,6 +1,7 @@
 import { verifyToken, verifyRefreshToken, generateAccessToken, setAccessTokenCookie } from "../utils/tokenHelper.js";
 import User from "../models/User.js";
 import ApiError from "../utils/ApiError.js";
+import bcrypt from "bcryptjs";
 
 /**
  * Auth Middleware
@@ -44,19 +45,50 @@ const authMiddleware = async (req, res, next) => {
         try {
           const refreshDecoded = verifyRefreshToken(req.cookies.refreshToken);
           const userId = refreshDecoded.userId || refreshDecoded.id || refreshDecoded._id;
-          const newAccessToken = generateAccessToken({
-            userId,
-            email: refreshDecoded.email,
-            role: refreshDecoded.role
+          // Validate refresh token against stored hash
+          const refreshUser = await User.findById(userId).select("+security.refreshTokenHash");
+          if (!refreshUser) {
+            throw new ApiError(401, "User not found.");
+          }
+          const storedHash = refreshUser.security?.refreshTokenHash;
+          if (!storedHash) {
+            throw new ApiError(
+               401,
+            "Session has been revoked. Please log in again."
+            );
+          }
+          const isValid = await bcrypt.compare(
+            req.cookies.refreshToken,
+            storedHash
+            );
+
+          if (!isValid) {
+            throw new ApiError(
+            401,
+            "Invalid session. Please log in again."
+            );
+          }
+          const newAccessToken = generateAccessToken({userId: refreshUser._id, email: refreshUser.email, role: refreshUser.role
           });
-          // Set only the new access token cookie — refresh token stays unchanged.
-          // Cookie options are centralised in setAccessTokenCookie (tokenHelper.js).
+
+          // Set only the new access token cookie
           setAccessTokenCookie(res, newAccessToken);
-          decoded = { userId, email: refreshDecoded.email, role: refreshDecoded.role };
-        } catch {
-          throw new ApiError(401, "Session expired. Please log in again.");
-        }
-      } else {
+
+          decoded = {userId: refreshUser._id ,email: refreshUser.email,  role: refreshUser.role
+        };
+        
+        } catch (error) {
+          if (error instanceof ApiError) {
+          throw error;
+          }
+
+          throw new ApiError(
+            401,
+            "Session expired. Please log in again."
+          );
+
+      } 
+      }else {
         throw new ApiError(401, "Invalid or expired token.");
       }
     }
