@@ -14,6 +14,7 @@ import bcrypt from "bcryptjs";
  * we transparently issue a new access token cookie (silent refresh).
  */
 const authMiddleware = async (req, res, next) => {
+
   try {
     let token = null;
     let tokenSource = null;
@@ -47,6 +48,7 @@ const authMiddleware = async (req, res, next) => {
         try {
           const refreshDecoded = verifyRefreshToken(req.cookies.refreshToken);
           const userId = refreshDecoded.userId || refreshDecoded.id || refreshDecoded._id;
+
           // Validate refresh token against stored hash
           const refreshUser = await User.findById(userId).select("+security.refreshTokenHash");
           
@@ -73,8 +75,8 @@ const authMiddleware = async (req, res, next) => {
             clearAuthCookies(res);
             
             throw new ApiError(
-            401,
-            "Invalid session. Please log in again."
+              401,
+              "Invalid session. Please log in again."
             );
           }
           const newAccessToken = generateAccessToken({
@@ -90,7 +92,7 @@ const authMiddleware = async (req, res, next) => {
             userId: refreshUser._id,
             email: refreshUser.email,
             role: refreshUser.role
-         };
+          };
         
           prefetchedUser = refreshUser;
 
@@ -105,9 +107,9 @@ const authMiddleware = async (req, res, next) => {
           );
         } 
       } else {
-          throw new ApiError(401, "Invalid or expired token.");
-        }
+        throw new ApiError(401, "Invalid or expired token.");
       }
+    }
 
       const userId = decoded.userId || decoded.id || decoded._id;
 
@@ -133,8 +135,7 @@ const authMiddleware = async (req, res, next) => {
       return res.status(401).json({
         success: false,
         message: "Invalid or expired token."
-      });
-    
+     });
     }
   };
 
