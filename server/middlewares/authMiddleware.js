@@ -94,6 +94,9 @@ const authMiddleware = async (req, res, next) => {
             role: refreshUser.role
           };
         
+          if (refreshUser.security) {
+            refreshUser.security.refreshTokenHash = undefined;
+          }
           prefetchedUser = refreshUser;
 
         } catch (error) {
